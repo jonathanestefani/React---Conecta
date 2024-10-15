@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CourseForm from '../components/CourseForm';
 import { useCourseContext } from '../context/CourseContext';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, ChakraProvider, Text } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 const AddCoursePage: React.FC = () => {
   const { course, addNewCourse, editCourse } = useCourseContext();
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
+  const [tabIndex, setTabIndex] = useState(0)
 
   const courseToEdit = id ? course : null;
 
@@ -19,19 +21,25 @@ const AddCoursePage: React.FC = () => {
     }
   };
 
+  const handleTabsChange = (index: number): any => {
+    setTabIndex(index);
+  }
+
   return (
     <ChakraProvider>
-        <div>
-            <Breadcrumb>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href='/'>Cursos</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href='#'>{courseToEdit ? 'Edição' : 'Cadastro'}</BreadcrumbLink>
-                </BreadcrumbItem>
-            </Breadcrumb>
-            <CourseForm onSubmit={handleSubmit} />
-        </div>
+          <Tabs index={tabIndex} onChange={handleTabsChange}>
+            <TabList>
+              <Tab>Cadastro</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <CourseForm onSubmit={handleSubmit} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+
+
+      
     </ChakraProvider>
   );
 };

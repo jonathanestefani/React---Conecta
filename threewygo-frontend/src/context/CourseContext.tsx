@@ -25,7 +25,7 @@ export const useCourseContext = () => {
 
 export const CourseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [course, setCourse] = useState<Course>({ id: 0, title: "", description: "", date: "", videoSize: 0});
+  const [course, setCourse] = useState<Course>({ id: 0, title: "", description: "", date: new Date(), videoSize: 0});
 
   const fetchCourses = async () => {
     const response = await getCourses();
